@@ -1,15 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:device_id/device_id.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:http2_client/http2_client.dart';
 import 'package:sign_in_flutter/bloc/bloc.dart';
+import 'package:sign_in_flutter/sign_in.dart';
 import 'package:sign_in_flutter/utils/http.dart';
-
-import '../../sign_in.dart';
 import '../bloc.dart';
+
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   @override
@@ -35,13 +38,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } else if (event is GoogleLogin) {
       try {
         // api call
-        print('siginsuccess');
-//        await signInWithGoogle();
-//        var deviceid=     await DeviceId.getID;
+        FirebaseUser authdetails = await signInWithGoogle();
+        print('siginsuccess' + authdetails.uid);
 
-        await loginapicall('sjhinfotech','sjhinfotech@gmail.com','','','google','','deviceid');
-
-        yield GoogleLoginSuccess('goo');
+        var deviceid = await DeviceId.getID;
+        print('siginsuccess' + deviceid);
+        if (authdetails != null) {
+       String stutis= await loginapicall(
+              authdetails.displayName,
+              authdetails.email,
+              '',
+              authdetails.photoUrl,
+              'google',
+              authdetails.uid,
+              deviceid);
+          yield GoogleLoginSuccess(response:stutis);
+        } else {
+          yield LoginFailure(message: 'Login Failure');
+        }
       } catch (e) {
         // error handle
         yield LoginFailure(message: 'Login Failure');
@@ -50,18 +64,38 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         // api call
 
-        yield FBLoginSuccess();
+
+        final facebookLogin = FacebookLogin();
+        final result = await facebookLogin.logIn(['email']);
+
+        switch (result.status) {
+          case FacebookLoginStatus.loggedIn:
+            final token = result.accessToken.token;
+            var http = Http2Client(maxOpenConnections: Platform.numberOfProcessors);
+            final graphResponse = await http.get(
+                'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+            final profile = jsonDecode(graphResponse.body);
+            break;
+          case FacebookLoginStatus.cancelledByUser:
+            yield LoginFailure(message: 'cancelled');
+            break;
+          case FacebookLoginStatus.error:
+            yield LoginFailure(message:result.errorMessage);
+            break;
+        }
+
         yield FBLoginSuccess();
       } catch (e) {
+
+        print('exception'+e.toString());
         // error handle
         yield LoginFailure(message: 'Login Failure');
       }
     }
   }
 
-  void loginapicall(String name, String email, mobile, String profilePic,
-      String domain, String uid,String deviceid) {
-
+  Future<String> loginapicall(String name, String email, mobile,
+      String profilePic, String domain, String uid, String deviceid) {
     print('apicall');
 
     final firebaseMessaging = FirebaseMessaging();
@@ -86,8 +120,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       makeGetRequest(endPoint, params, 1).then((response) {
         var data = (response).trim();
         var d2 = jsonDecode(data);
+        print(data);
         if (d2['status'] == 0) {
           if (d2['message'] == 'New user') {
+            String newuser=             d2['body']['message'];
+            return newuser;
+
 //            callNewUser(name, profilePic, domain, email, mobile, uid);
           } else {
             var listData = d2['body']['message'];
@@ -100,6 +138,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               }
               saveShare('bearer', d2['body']['activation_code']);
 //              callOldUser();
+              String newuser= d2['body']['message'];
+              return newuser;
             } else if (listData == 'Admin_BlocKEd') {
               // Navigator.push(
               //     context,
@@ -109,7 +149,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               // ),
             }
           }
-        } else {}
+        } else {
+          return  'failed';
+        }
       });
     });
   }

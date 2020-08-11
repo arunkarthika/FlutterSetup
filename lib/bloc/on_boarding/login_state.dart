@@ -28,7 +28,7 @@ class GoogleLoginSuccess extends LoginState{
 
 
 
-     GoogleLoginSuccess(this.response);
+     GoogleLoginSuccess({this.response});
 
 }
 

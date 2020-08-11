@@ -83,7 +83,7 @@ class FirstScreen extends StatelessWidget {
                   height: 100.0,
                   child: 
                       Image.network(
-                          imageUrl,
+                          'imageUrl',
                           fit: BoxFit.fill,
                         ),
                 ),
@@ -107,7 +107,7 @@ class FirstScreen extends StatelessWidget {
           Padding(
                 padding: EdgeInsets.only(top: 50.0),
         child: TextFormField(
-           initialValue: name,
+           initialValue: 'name',
       decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'NAME',
@@ -124,7 +124,7 @@ class FirstScreen extends StatelessWidget {
           Padding(
                 padding: EdgeInsets.only(top: 50.0),
                child:  TextFormField(
-           initialValue: email,
+           initialValue: 'email',
       decoration: InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'EMAIL',

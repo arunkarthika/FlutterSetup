@@ -1,5 +1,6 @@
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
+
 if (localPropertiesFile.exists()) {
     localPropertiesFile.withReader('UTF-8') { reader ->
         localProperties.load(reader)
@@ -36,6 +37,7 @@ android {
         applicationId "gravity.livestream"
         minSdkVersion 16
         targetSdkVersion 28
+        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -61,4 +63,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+
 }
