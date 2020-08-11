@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "546064405690",
+    "firebase_url": "https://livestream-3d630.firebaseio.com",
+    "project_id": "livestream-3d630",
+    "storage_bucket": "livestream-3d630.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546064405690:android:7afc4393e2372a8a535e83",
+        "android_client_info": {
+          "package_name": "gravity.livestream"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546064405690-96eibsfeg06vfomgdrbl84740mu1c90c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "gravity.livestream",
+            "certificate_hash": "260d96eaf869970c35ae9f74dcfaf76c8438111d"
+          }
+        },
+        {
+          "client_id": "546064405690-bplka6ngq5ms6t24jlh8m9bljqcv705p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyANpq9Zs8V7S64FeVqrFaDR0vyyIO-SMVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546064405690-bplka6ngq5ms6t24jlh8m9bljqcv705p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
