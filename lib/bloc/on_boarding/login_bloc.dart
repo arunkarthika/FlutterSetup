@@ -60,7 +60,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               authdetails.uid,
               deviceid,
               gcmregistrationid);
-          print('siginsuccess' + loginResponse.message);
+          print('statedata'+loginResponse.loginDomain.toString());
+          print('siginsuccess' + loginResponse.toString());
           yield GoogleLoginSuccess(response: loginResponse);
         } else {
           yield LoginFailure(message: 'Login Failure');
@@ -99,4 +100,65 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     }
   }
+  Future<LoginModel> loginapicall(String name, String email, mobile,
+      String profilePic, String domain, String uid, String deviceid) async {
+    print('apicall');
+    final firebaseMessaging = FirebaseMessaging();
+    firebaseMessaging.getToken().then((token) {
+      var gcmregistrationid = token.toString();
+      var endPoint = 'system/check';
+      var params = 'login_domain=' +
+          domain +
+          '&email=' +
+          email +
+          '&mobile=' +
+          mobile +
+          '&profilePic=' +
+          profilePic +
+          '&device_id=' +
+          deviceid +
+          '&gcm_registration_id=' +
+          gcmregistrationid +
+          '&firebaseUID=' +
+          uid;
+      makeGetRequest(endPoint, params, 1).then((response) {
+        var data = (response).trim();
+        var d2 = jsonDecode(data);
+        print(data);
+        return LoginModel.fromJson(d2);
+        if (d2['status'] == 0) {
+          if (d2['message'] == 'New user') {
+            String newuser = d2['body']['message'];
+            return newuser;
+
+//            callNewUser(name, profilePic, domain, email, mobile, uid);
+          } else {
+            var listData = d2['body']['message'];
+            if (listData == 'Already exsits') {
+              var body = d2['body'];
+              var entryList = body.entries.toList();
+
+              for (var j = 0; j < entryList.length; j++) {
+                saveShare(entryList[j].key, entryList[j].value.toString());
+              }
+              saveShare('bearer', d2['body']['activation_code']);
+//              callOldUser();
+              String newuser = d2['body']['message'];
+              return newuser;
+            } else if (listData == 'Admin_BlocKEd') {
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //       builder: (context) => AdminBlock(),
+              //     ),
+              // ),
+            }
+          }
+        } else {
+          return 'failed';
+        }
+      });
+    });
+  }
+
 }

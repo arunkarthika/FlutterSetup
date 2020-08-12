@@ -29,7 +29,8 @@ class LoginProvider {
         gcmregistrationid +
         '&firebaseUID=' +
         uid;
-    return _apiService.post(url: Config.SYSTEM_CHECK + params).then((onValue) {
+    return _apiService.get(url: Config.SYSTEM_CHECK + params).then((onValue) {
+      print('LoginResponse'+onValue.data);
       return LoginResponse.fromJson(onValue.data);
     });
   }

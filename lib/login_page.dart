@@ -31,13 +31,7 @@ class _LoginPageState extends State<LoginPage> {
           } else if (state is LoginFailure) {
             Fluttertoast.showToast(msg: 'Login Failed');
           } else if (state is GoogleLoginSuccess) {
-//            Navigator.of(context).push(
-//              MaterialPageRoute(
-//                builder: (context) {
-//                  return FirstScreen();
-//                },
-//              ),
-//            );
+            print('statedata'+state.response.loginDomain.toString());
           } else if (state is FBLoginSuccess) {
 
           }
