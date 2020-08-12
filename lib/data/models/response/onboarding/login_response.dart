@@ -1,27 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sign_in_flutter/data/models/response/onboarding/login_response_body.dart';
 part 'login_response.g.dart';
 
 @JsonSerializable(includeIfNull: false)
 class LoginResponse {
   String message;
-  String userId;
-  String username;
-  String activationCode;
-  String country;
-  String profileName;
-  String id;
-  String isThisUserBlocked;
-  String loginDomain;
-  String referenceUserId;
-  String profilePic;
-  String profilePic1;
-  String profilePic2;
-  String level;
-  String diamond;
-  String overAllGold;
-  String fans;
-  String friends;
-  String followers;
+  String status;
+  LoginResponseBody body;
 
   LoginResponse();
 

@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sign_in_flutter/bloc/bloc.dart';
-import 'package:sign_in_flutter/utils/http.dart';
-
-import 'first_screen.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -27,14 +24,11 @@ class _LoginPageState extends State<LoginPage> {
         bloc: BlocProvider.of<LoginBloc>(context),
         listener: (context, LoginState state) {
           if (state is LoginSuccess) {
-
           } else if (state is LoginFailure) {
             Fluttertoast.showToast(msg: 'Login Failed');
           } else if (state is GoogleLoginSuccess) {
-            print('statedata'+state.response.loginDomain.toString());
-          } else if (state is FBLoginSuccess) {
-
-          }
+            print('statedata' + state.response.body.toString());
+          } else if (state is FBLoginSuccess) {}
         },
         child: buildBlocBuilder(context, _termsAndCondition));
   }

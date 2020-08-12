@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:device_id/device_id.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -14,6 +14,7 @@ import 'package:sign_in_flutter/data/models/response/onboarding/login_response.d
 import 'package:sign_in_flutter/data/repositories/repositories.dart';
 import 'package:sign_in_flutter/sign_in.dart';
 import 'package:sign_in_flutter/utils/http.dart';
+
 import '../bloc.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -100,6 +101,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     }
   }
+
   Future<LoginModel> loginapicall(String name, String email, mobile,
       String profilePic, String domain, String uid, String deviceid) async {
     print('apicall');
@@ -160,5 +162,4 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       });
     });
   }
-
 }
