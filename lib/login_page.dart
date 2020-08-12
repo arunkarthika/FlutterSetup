@@ -31,12 +31,6 @@ class _LoginPageState extends State<LoginPage> {
           } else if (state is LoginFailure) {
             Fluttertoast.showToast(msg: 'Login Failed');
           } else if (state is GoogleLoginSuccess) {
-            Fluttertoast.showToast(msg: state.response);
-            if(state.response=='New user'){
-              Fluttertoast.showToast(msg: 'New User');
-            }else if(state.response=='Already exsits'){
-              Fluttertoast.showToast(msg: 'Already Exists');
-            }
 //            Navigator.of(context).push(
 //              MaterialPageRoute(
 //                builder: (context) {

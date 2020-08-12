@@ -1,43 +1,50 @@
 {
   "project_info": {
-    "project_number": "546064405690",
-    "firebase_url": "https://livestream-3d630.firebaseio.com",
-    "project_id": "livestream-3d630",
-    "storage_bucket": "livestream-3d630.appspot.com"
+    "project_number": "1019854279695",
+    "firebase_url": "https://belive-flut-opt.firebaseio.com",
+    "project_id": "belive-flut-opt",
+    "storage_bucket": "belive-flut-opt.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:546064405690:android:7afc4393e2372a8a535e83",
+        "mobilesdk_app_id": "1:1019854279695:android:3881ef48e4b900b944ff7a",
         "android_client_info": {
-          "package_name": "gravity.livestream"
+          "package_name": "com.stepping.blive"
         }
       },
       "oauth_client": [
         {
-          "client_id": "546064405690-96eibsfeg06vfomgdrbl84740mu1c90c.apps.googleusercontent.com",
+          "client_id": "1019854279695-tmajtg7srhssccsp093g4uj76l1io75e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "gravity.livestream",
-            "certificate_hash": "260d96eaf869970c35ae9f74dcfaf76c8438111d"
+            "package_name": "com.stepping.blive",
+            "certificate_hash": "5096f507cfe4f7be3ad8f6508b7a6bd9eac93eb4"
           }
         },
         {
-          "client_id": "546064405690-bplka6ngq5ms6t24jlh8m9bljqcv705p.apps.googleusercontent.com",
+          "client_id": "1019854279695-4elf9597tfg0s6863cc2fgu1cmoenmrr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyANpq9Zs8V7S64FeVqrFaDR0vyyIO-SMVY"
+          "current_key": "AIzaSyCJnFMQRyqRcHi6XLgehZrsSPt8NPZLI2I"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "546064405690-bplka6ngq5ms6t24jlh8m9bljqcv705p.apps.googleusercontent.com",
+              "client_id": "1019854279695-4elf9597tfg0s6863cc2fgu1cmoenmrr.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "1019854279695-q7kp6oca3fo68lcibgq0hsknlgriuasd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stepping.blive"
+              }
             }
           ]
         }

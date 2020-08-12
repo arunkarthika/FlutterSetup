@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">UGO Live</string>
+    <string name="facebook_app_id">238974577176064</string>
+    <string name="fb_login_protocol_scheme">fb238974577176064</string>
+</resources>

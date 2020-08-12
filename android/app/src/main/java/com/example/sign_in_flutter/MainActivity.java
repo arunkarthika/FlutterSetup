@@ -1,4 +1,4 @@
-package gravity.livestream;
+package com.stepping.blive;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
