@@ -1,17 +1,16 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
+import 'package:async/async.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http1;
 import 'package:http2_client/http2_client.dart';
-
 import 'package:path/path.dart';
-import 'package:async/async.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-
-import 'package:sign_in_flutter/utils/constants.dart';
+import 'package:sign_in_flutter/data/utils/config.dart';
 
 dynamic toast(text, color) {
   Fluttertoast.showToast(
@@ -23,6 +22,7 @@ dynamic toast(text, color) {
     fontSize: 16.0,
   );
 }
+
 Future<bool> check() async {
   var connectivityResult = await (Connectivity().checkConnectivity());
   if (connectivityResult == ConnectivityResult.mobile) {
@@ -43,15 +43,13 @@ Future<String> getStringData(key) async {
   return prefs.getString(key) ?? '';
 }
 
-
-Future makeGetRequest(
-    String endPoint, String params, int woutauth) async {
+Future makeGetRequest(String endPoint, String params, int woutauth) async {
   var http = Http2Client(maxOpenConnections: Platform.numberOfProcessors);
   if (await check()) {
     var username = await getStringData('bearer');
     var password = await getStringData('token');
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    var url = '$domain$endPoint?$params';
+    var url = Config.domain + '$endPoint?$params';
     print('url');
     print(url);
     var response;
@@ -66,7 +64,7 @@ Future makeGetRequest(
     if (response.statusCode == 401 && woutauth == 0) {
       var json = jsonEncode({'device': 'android'});
       final authEndpoint = 'system/auth';
-      final urlData = '$domain$authEndpoint';
+      final urlData = Config.domain + '$authEndpoint';
       var session = await http.post(Uri.encodeFull(urlData),
           body: jsonDecode(json),
           headers: {'Authorization': 'Bearer $username'});
@@ -103,7 +101,7 @@ Future makePostRequest(
     var username = await getStringData('bearer');
     var password = await getStringData('token');
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    final url = '$domain$endPoint';
+    final url = Config.domain + '$endPoint';
     print('url');
     print(url);
     print('params');
@@ -120,7 +118,7 @@ Future makePostRequest(
     if (response.statusCode == 401 && woutauth == 0) {
       var json = jsonEncode({'device': 'android'});
       final authEndpoint = 'system/auth';
-      final urlData = '$domain$authEndpoint';
+      final urlData = Config.domain + '$authEndpoint';
       var session = await http.post(Uri.encodeFull(urlData),
           body: jsonDecode(json),
           headers: {'Authorization': 'Bearer $username'});
@@ -155,13 +153,14 @@ Future uploadImage(File file, endPoint, params, woutauth, context) async {
     var username = await getStringData('bearer');
     var password = await getStringData('token');
     var basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    final url = '$domain$endPoint';
+    final url = Config.domain + '$endPoint';
     var headers = {'Authorization': basicAuth};
     var stream = http1.ByteStream(DelegatingStream(file.openRead()));
     var length = await file.length();
     final multipartRequest = http1.MultipartRequest('POST', Uri.parse(url));
     multipartRequest.headers.addAll(headers);
-    multipartRequest.files.add(http1.MultipartFile('profile_pic', stream, length,
+    multipartRequest.files.add(http1.MultipartFile(
+        'profile_pic', stream, length,
         filename: basename(file.path)));
     var data = jsonDecode(params);
     for (var key in data.keys) {
@@ -172,7 +171,7 @@ Future uploadImage(File file, endPoint, params, woutauth, context) async {
     if (response.statusCode == 401 && woutauth == 0) {
       var json = jsonEncode({'device': 'android'});
       final authEndpoint = 'system/auth';
-      final urlData = '$domain$authEndpoint';
+      final urlData = Config.domain + '$authEndpoint';
       var session = await http1.post(Uri.encodeFull(urlData),
           body: jsonDecode(json),
           headers: {'Authorization': 'Bearer $username'});
@@ -200,5 +199,4 @@ Future uploadImage(File file, endPoint, params, woutauth, context) async {
   } else {
     toast('No Internet Connection', Colors.red);
   }
-
 }

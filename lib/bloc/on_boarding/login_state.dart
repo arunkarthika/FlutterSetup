@@ -1,6 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:sign_in_flutter/Model/LoginModel.dart';
+import 'package:sign_in_flutter/data/models/response/onboarding/login_response.dart';
 
 abstract class LoginState extends Equatable {
   @override
@@ -23,16 +22,10 @@ class LoginFailure extends LoginState {
   LoginFailure({this.message});
 }
 
-class GoogleLoginSuccess extends LoginState{
+class GoogleLoginSuccess extends LoginState {
+  final LoginResponse response;
 
-  final LoginModel response;
-
-
-
-     GoogleLoginSuccess({this.response});
-
+  GoogleLoginSuccess({this.response});
 }
 
-class FBLoginSuccess extends LoginState{
-  
-}
+class FBLoginSuccess extends LoginState {}
