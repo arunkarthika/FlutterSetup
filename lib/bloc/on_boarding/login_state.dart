@@ -10,6 +10,7 @@ class LoginInitial extends LoginState {}
 
 class LoginSuccess extends LoginState {
   final String response;
+
   LoginSuccess({this.response});
 }
 
@@ -19,10 +20,14 @@ class UserNameEmtpy extends LoginState {
 
 class LoginFailure extends LoginState {
   final String message;
+
   LoginFailure({this.message});
 }
 
 class GoogleLoginSuccess extends LoginState {
+  @override
+  bool operator ==(_) => false;
+
   final LoginResponse response;
 
   GoogleLoginSuccess({this.response});

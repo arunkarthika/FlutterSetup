@@ -60,8 +60,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               authdetails.uid,
               deviceid,
               gcmregistrationid);
-          print('statedata'+loginResponse.loginDomain.toString());
-          print('siginsuccess' + loginResponse.toString());
+          print(loginResponse);
           yield GoogleLoginSuccess(response: loginResponse);
         } else {
           yield LoginFailure(message: 'Login Failure');
@@ -74,6 +73,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         // api call
         final facebookLogin = FacebookLogin();
+
         final result = await facebookLogin.logIn(['email']);
         switch (result.status) {
           case FacebookLoginStatus.loggedIn:
