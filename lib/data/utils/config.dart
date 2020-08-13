@@ -15,7 +15,7 @@ class Config {
   static const String SYSTEM_CHECK = 'system/check';
   // Header key
   static const String CONTENT_TYPE_KEY = 'Content-Type';
-  static const String AUTH_TOKEN_KEY = 'auth-token';
+  static const String AUTHORIZATION_KEY = 'Authorization';
   static const String ACCEPT_LANGUAGE_KEY = 'accept-language';
   static const String DEVICE_ID_KEY = 'device-id';
 

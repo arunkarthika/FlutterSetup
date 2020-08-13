@@ -9,7 +9,7 @@ part of 'login_response.dart';
 LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) {
   return LoginResponse()
     ..message = json['message'] as String
-    ..status = json['status'] as String
+    ..status = json['status'] as int
     ..body = json['body'] == null
         ? null
         : LoginResponseBody.fromJson(json['body'] as Map<String, dynamic>);

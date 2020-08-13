@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">UGO Live</string>
-    <string name="facebook_app_id">238974577176064</string>
-    <string name="fb_login_protocol_scheme">fb238974577176064</string>
+ <string name="app_name">UGOlive</string>
+ <string name="facebook_application_id" translatable="false" >1515524751939285</string>
+ <string name="fb_login_protocol_scheme" translatable="false">fb1515524751939285</string>
+ <string name="twitter_consumer_key" translatable="false">Pxs3CpZ3sQlKDYAJtxh9CjEtC</string>
+ <string name="twitter_consumer_secret" translatable="false">NEcJhoAJs6TVFlsBJihh5pjcGkcv8v1uBhmFP3JiqMGDmLxR8u</string>
 </resources>

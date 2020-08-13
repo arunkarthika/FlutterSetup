@@ -39,6 +39,8 @@ dependencies:
   firebase_messaging: ^6.0.15
   flutter_facebook_login: ^3.0.0
   json_annotation: ^3.0.1
+  firebase_auth_ui: ^1.0.1
+
 
 
 dev_dependencies:

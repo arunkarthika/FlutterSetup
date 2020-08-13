@@ -30,8 +30,8 @@ class LoginProvider {
         '&firebaseUID=' +
         uid;
     return _apiService.get(url: Config.SYSTEM_CHECK + params).then((onValue) {
-      print('LoginResponse'+onValue.data['body']);
-      return LoginResponse.fromJson(onValue.data['body']);
+//      print('LoginResponse'+onValue.toString());
+      return LoginResponse.fromJson(onValue.data);
     });
   }
 }

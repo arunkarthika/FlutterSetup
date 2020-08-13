@@ -4,7 +4,8 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:device_id/device_id.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_ui/firebase_auth_ui.dart';
+import 'package:firebase_auth_ui/providers.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http2_client/http2_client.dart';
@@ -41,63 +42,110 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginFailure(message: 'Login Failure');
       }
     } else if (event is GoogleLogin) {
-      try {
-        FirebaseUser authdetails = await signInWithGoogle();
-        var deviceid = await DeviceId.getID;
-        if (authdetails != null) {
-          final firebaseMessaging = FirebaseMessaging();
-          var gcmregistrationid = '';
-          await firebaseMessaging.getToken().then((token) {
-            gcmregistrationid = token.toString();
-          });
+      final firebaseMessaging = FirebaseMessaging();
+      var gcmregistrationid = '';
+      var deviceid = await DeviceId.getID;
 
-          // api call
-          LoginResponse loginResponse = await _loginRepository.login(
-              authdetails.displayName,
-              authdetails.email,
-              '',
-              authdetails.photoUrl,
-              'google',
-              authdetails.uid,
-              deviceid,
-              gcmregistrationid);
-          print(loginResponse);
-          yield GoogleLoginSuccess(response: loginResponse);
-        } else {
-          yield LoginFailure(message: 'Login Failure');
-        }
-      } catch (e) {
-        // error handle
-        yield LoginFailure(message: 'Login Failure');
-      }
+      await firebaseMessaging.getToken().then((token) {
+        gcmregistrationid = token.toString();
+      });
+      FirebaseUser firebaseUser= await FirebaseAuthUi.instance().launchAuth([
+        AuthProvider.google(),
+      ]);
+      LoginResponse loginResponse = await _loginRepository.login(
+          firebaseUser.displayName,
+          firebaseUser.email,
+          '',
+          firebaseUser.photoUri,
+          'google',
+          firebaseUser.uid,
+          deviceid,
+          gcmregistrationid);
+      print(loginResponse);
+
+     yield GoogleLoginSuccess(response: loginResponse);
+      print('firebaseUser' + firebaseUser.email);
     } else if (event is FBLogin) {
       try {
         // api call
-        final facebookLogin = FacebookLogin();
+        final firebaseMessaging = FirebaseMessaging();
+        var gcmregistrationid = '';
+        var deviceid = await DeviceId.getID;
 
-        final result = await facebookLogin.logIn(['email']);
-        switch (result.status) {
-          case FacebookLoginStatus.loggedIn:
-            final token = result.accessToken.token;
-            var http =
-                Http2Client(maxOpenConnections: Platform.numberOfProcessors);
-            final graphResponse = await http.get(
-                'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
-            final profile = jsonDecode(graphResponse.body);
-            break;
-          case FacebookLoginStatus.cancelledByUser:
-            yield LoginFailure(message: 'cancelled');
-            break;
-          case FacebookLoginStatus.error:
-            yield LoginFailure(message: result.errorMessage);
-            break;
-        }
+        await firebaseMessaging.getToken().then((token) {
+          gcmregistrationid = token.toString();
+        });
+        FirebaseUser firebaseUser= await FirebaseAuthUi.instance().launchAuth([
+          AuthProvider.facebook(),
+        ]);
+        LoginResponse loginResponse = await _loginRepository.login(
+            firebaseUser.displayName,
+            firebaseUser.email,
+            '',
+            firebaseUser.photoUri,
+            'Facebook',
+            firebaseUser.uid + '@facebook.com',
+            deviceid,
+            gcmregistrationid);
+        print(loginResponse);
 
         yield FBLoginSuccess();
       } catch (e) {
         print('exception' + e.toString());
         // error handle
         yield LoginFailure(message: 'Login Failure');
+      }
+    } else if (event is MobilenumberLogin) {
+      try{
+        final firebaseMessaging = FirebaseMessaging();
+        var gcmregistrationid = '';
+        var deviceid = await DeviceId.getID;
+
+        await firebaseMessaging.getToken().then((token) {
+          gcmregistrationid = token.toString();
+        });
+        FirebaseUser firebaseUser= await FirebaseAuthUi.instance().launchAuth([
+          AuthProvider.phone(),
+        ]);
+        LoginResponse loginResponse = await _loginRepository.login(
+            firebaseUser.displayName,
+            firebaseUser.email,
+            firebaseUser.phoneNumber,
+            firebaseUser.photoUri,
+            'mobile',
+            firebaseUser.uid,
+            deviceid,
+            gcmregistrationid);
+        print(loginResponse);
+
+      }catch(e){
+
+      }
+    }else if (event is TwitterLogin) {
+      try{
+        final firebaseMessaging = FirebaseMessaging();
+        var gcmregistrationid = '';
+        var deviceid = await DeviceId.getID;
+
+        await firebaseMessaging.getToken().then((token) {
+          gcmregistrationid = token.toString();
+        });
+        FirebaseUser firebaseUser= await FirebaseAuthUi.instance().launchAuth([
+          AuthProvider.twitter(),
+        ]);
+        LoginResponse loginResponse = await _loginRepository.login(
+            firebaseUser.displayName,
+            firebaseUser.email,
+            '',
+            firebaseUser.photoUri,
+            'Twitter',
+            firebaseUser.uid + '@twitter.com',
+            deviceid,
+            gcmregistrationid);
+        print(loginResponse);
+
+      }catch(e){
+
       }
     }
   }

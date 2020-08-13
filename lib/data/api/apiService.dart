@@ -10,6 +10,7 @@ class ApiService {
   }
   ApiService._internal();
   var deviceId;
+  var basicAuth;
 
   // get method service call
   Future<Response> get({url, Map<String, dynamic> queryParameters}) async {
@@ -61,7 +62,7 @@ class ApiService {
     var header = Map<String, dynamic>();
     header[Config.CONTENT_TYPE_KEY] = Config.CONTENT_TYPE_JSON;
     if (deviceId != null) header[Config.DEVICE_ID_KEY] = deviceId;
-
+    if (basicAuth != null) header[Config.AUTHORIZATION_KEY] = basicAuth;
     return header;
   }
 }

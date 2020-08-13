@@ -54,7 +54,9 @@ class ApiClient {
           if (_error is DioError) {
             if (_error != null &&
                 _error.response != null &&
-                _error.response?.statusCode == Config.UN_AUTHORIZED) {}
+                _error.response?.statusCode == Config.UN_AUTHORIZED) {
+
+            }
             //String errorStr = ApiError.handleError(error);
           } else {
             //String errorStr = error.toString();

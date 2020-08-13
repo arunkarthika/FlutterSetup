@@ -27,7 +27,8 @@ class _LoginPageState extends State<LoginPage> {
           } else if (state is LoginFailure) {
             Fluttertoast.showToast(msg: 'Login Failed');
           } else if (state is GoogleLoginSuccess) {
-            print('statedata' + state.response.body.toString());
+
+            print('statedata' + state.response.body.message.toString());
           } else if (state is FBLoginSuccess) {}
         },
         child: buildBlocBuilder(context, _termsAndCondition));
@@ -92,7 +93,10 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          BlocProvider.of<LoginBloc>(context).add(TwitterLogin());
+
+                        },
                         child: Image(
                           image: AssetImage(
                             'assets/images/login/Twitter.png',
@@ -125,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                   right: 0,
                   child: GestureDetector(
                     onTap: () {
-                      BlocProvider.of<LoginBloc>(context).add(DoLogin());
+                      BlocProvider.of<LoginBloc>(context).add(MobilenumberLogin());
                     },
                     child: Icon(
                       Icons.phone_android,
